@@ -34,13 +34,5 @@ class Address {
         $this->user = $user;
     }
 
-    public function save() {
-
-    }
-
-    public function delete() {
-
-    }
-
 }
 ?>

@@ -3,14 +3,13 @@
 class Shipping {
     private $address;
 
-    public function getValue() {
-        
-    }
-
-    public function setAddress(Address $address) {
+    public function __construct(Address $address) {
         $this->address = $address;
     }
 
+    public function getShippingValue() {
+        return 10;
+    }
 
 }
 ?>

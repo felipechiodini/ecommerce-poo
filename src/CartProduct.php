@@ -2,11 +2,11 @@
 
 class CartProduct {
     private $product;
-    private $size;
     private $quantity;
 
-    public function __construct(Product $product) {
+    public function __construct(Product $product, $quantity) {
         $this->product = $product;
+        $this->quantity = $quantity;
     }
 
     public function __get($name) {
@@ -17,7 +17,7 @@ class CartProduct {
         $this->$name = $value;
     }
 
-    public function totalValue() {
+    public function getTotalValue() {
         return $this->product->__get("price") * $this->quantity;    
     }
 

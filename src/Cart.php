@@ -2,8 +2,9 @@
 include_once "CartProduct.php";
 
 class Cart {
-    private $cartProducts = [];
     private $user;
+    private $cartProducts = [];
+    private $shipping;
     private $cupom;
 
     public function __set($name, $value) {
@@ -19,11 +20,11 @@ class Cart {
     }
 
     public function addProduct(Product $product) {
-        $this->cartProducts[] = new CartProduct($product);
+        $this->cartProducts[] = new CartProduct($product, 1);
     }
 
     public function removeProduct(Product $product) {
-
+        unset($this->cartProducts[$product->__get("id")]);
     }
 
     public function setQuantityItem(Product $product, $quantity) {
@@ -36,27 +37,21 @@ class Cart {
     }
 
     public function getSubTotal() {
-        $price = 0;
+        $amount = 0;
 
         foreach ($this->cartProducts as $cartProduct) {
-            $price += $cartProduct->totalValue();
+            $amount += $cartProduct->getTotalValue();
         }
 
-        return $price;
-    }
-
-    public function getShippingValue() {
-        return 10;
+        return $amount;
     }
 
     public function getTotalValue() {
-        if ($this->cupom) return $this->cupom->calculateDiscount($this->getSubTotal()) + $this->getShippingValue();
-
-        return $this->getSubTotal() + $this->getShippingValue();
+        return $this->getSubTotal() + $this->shipping->getShippingValue();
     }
 
-    public function shippingAddress(Address $address) {
-
+    public function setShipping(Address $address) {
+        $this->shipping = new Shipping($address);
     }
 
     public function addCupom(Cupom $cupom) {
